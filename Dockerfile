@@ -28,6 +28,8 @@ RUN apt-get update && \
        terraform \
        kubectl \
        helm \
+       mysql-client \
+       postgresql-client \ 
        && \
      useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud && \
      rm -rf /var/lib/apt/lists/* && \ 
