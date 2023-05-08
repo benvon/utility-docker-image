@@ -77,10 +77,12 @@ RUN set -ex; \
     chmod +x /usr/local/bin/helm && \
     helm version
 
+# kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+# version: https://dl.k8s.io/release/stable.txt
 ARG KUBECTL_VERSION
-ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.24.3}
+ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.27.1}
 RUN set -xe && \
-    curl -fsSLo kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
+    curl -fsSLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin && \
     kubectl version --short
