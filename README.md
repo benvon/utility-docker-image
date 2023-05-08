@@ -32,7 +32,7 @@ Docker image with a bunch of useful tools installed based on Ubuntu Jammy. This 
 
 ## Image maintainer packages:
 
-Helm - 3.11.3
-Kubectl - 1.27.1
-Terraform - 1.4.6
-Go - 1.20.4
+- Helm - 3.11.3
+- Kubectl - 1.27.1
+- Terraform - 1.4.6
+- Go - 1.20.4
