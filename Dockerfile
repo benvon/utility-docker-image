@@ -1,5 +1,7 @@
 FROM ubuntu:jammy
 
+LABEL org.opencontainers.image.source https://github.com/benvon/utility-docker-image/
+
 USER 0
 
 # Set the SHELL to bash with pipefail option
