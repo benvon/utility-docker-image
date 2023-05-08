@@ -80,7 +80,7 @@ ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.24.3}
 RUN set -xe && \
     curl -fsSLo kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
     chmod +x kubectl && \
-    mv kubectl /usr/local/bin
+    mv kubectl /usr/local/bin && \
     kubectl version --short
 
 USER 1000
