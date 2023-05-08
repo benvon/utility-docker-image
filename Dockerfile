@@ -67,7 +67,7 @@ RUN set -ex; \
 # helm: https://helm.sh/docs/intro/install/
 # https://get.helm.sh/helm-v3.12.0-rc.1-linux-amd64.tar.gz
 ARG HELM_VERSION
-ENV HELM_VERSION=${HELM_VERSION:-3.12.0-rc.1}
+ENV HELM_VERSION=${HELM_VERSION:-3.11.3}
 RUN set -ex; \
     curl -fsSLo helm.tar.gz "https://get.helm.sh/helm-v${HELM_VERSION}-${OS}-${CPUARCH}.tar.gz" && \
     tar xfvz helm.tar.gz && \
@@ -81,7 +81,7 @@ RUN set -xe && \
     curl -fsSLo kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
     chmod +x kubectl && \
     mv kubectl /usr/local/bin
-    kubectl version --client=true
+    kubectl version --short
 
 USER 1000
 WORKDIR /home/cloud
