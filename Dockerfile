@@ -72,6 +72,7 @@ RUN set -ex; \
     curl -fsSLo helm.tar.gz "https://get.helm.sh/helm-v${HELM_VERSION}-${OS}-${CPUARCH}.tar.gz" && \
     tar xfvz helm.tar.gz && \
     cp ${OS}-${CPUARCH}/helm /usr/local/bin/helm && \
+    rm -rf helm.tar.gz ${OS}-${CPUARCH} && \
     chmod +x /usr/local/bin/helm && \
     helm version
 
