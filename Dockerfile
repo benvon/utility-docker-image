@@ -33,6 +33,7 @@ RUN apt-get update && \
       git \
       mysql-client \
       postgresql-client \ 
+      unzip \
       && \
     useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud && \
     rm -rf /var/lib/apt/lists/* && \ 
