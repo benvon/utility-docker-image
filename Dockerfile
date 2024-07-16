@@ -101,4 +101,4 @@ RUN	curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
 WORKDIR /home/cloud
-RUN /usr/local/bin/ansible-galaxy collection install community.kubernetes
+RUN ansible-galaxy collection install community.kubernetes
