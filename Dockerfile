@@ -32,6 +32,14 @@ RUN apt-get update && \
       python3-ncclient \
       python3-pip \
       python-is-python3 \
+      python3-botocore \
+      python3-boto3 \
+      python3-boto \
+      python3-azure-cli \
+      python3-awscli \
+      python3-openshift \
+      python3-kubernetes \
+      python3-ansible \
       ssh \
       vim \
       git \
@@ -41,16 +49,6 @@ RUN apt-get update && \
       net-tools \
       && \
       rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install --no-cache-dir \
-      boto \
-      botocore \
-      boto3 \
-      awscli \
-      azure-cli \
-      ansible \
-      openshift \
-      kubernetes
     
 # Go stuff
 ARG GO_VERSION 
