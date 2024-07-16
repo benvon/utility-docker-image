@@ -1,24 +1,24 @@
 FROM ubuntu:noble
 
-LABEL org.opencontainers.image.source https://github.com/benvon/utility-docker-image/
-LABEL org.opencontainers.image.base.name ubuntu
+LABEL org.opencontainers.image.source=https://github.com/benvon/utility-docker-image/
+LABEL org.opencontainers.image.base.name=ubuntu
 
 USER 0
 
 # Set the SHELL to bash with pipefail option
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG CPUARCH
-ENV CPUARCH amd64 
+ENV CPUARCH=amd64 
 ARG CPUARCH_EXT 
-ENV CPUARCH_EXT x86_64
+ENV CPUARCH_EXT=x86_64
 
 ARG OS 
-ENV OS linux
+ENV OS=linux
 ARG OS_EXT 
-ENV OS_EXT Linux
+ENV OS_EXT=Linux
 
 
 
