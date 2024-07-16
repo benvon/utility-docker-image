@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 LABEL org.opencontainers.image.source https://github.com/benvon/utility-docker-image/
 LABEL org.opencontainers.image.base.name ubuntu
@@ -37,6 +37,7 @@ RUN apt-get update && \
       mysql-client \
       postgresql-client \ 
       unzip \
+      net-tools \
       && \
     useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud && \
     rm -rf /var/lib/apt/lists/* && \ 
@@ -52,7 +53,7 @@ RUN apt-get update && \
     
 # Go stuff
 ARG GO_VERSION 
-ENV GO_VERSION=${GO_VERSION:-1.22.3}
+ENV GO_VERSION=${GO_VERSION:-1.22.5}
 RUN set -ex; \  
     curl -fsSLo go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-${CPUARCH}.tar.gz" && \
     rm -rf /usr/local/go && \
