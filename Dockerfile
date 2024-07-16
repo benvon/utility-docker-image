@@ -20,6 +20,8 @@ ENV OS linux
 ARG OS_EXT 
 ENV OS_EXT Linux
 
+
+
 RUN apt-get update && \
     apt-get -y install \
       curl \
@@ -35,20 +37,18 @@ RUN apt-get update && \
       python3-botocore \
       python3-boto3 \
       python3-boto \
-      python3-azure-cli \
-      python3-awscli \
       python3-openshift \
       python3-kubernetes \
-      python3-ansible \
+      ansible \
       ssh \
       vim \
       git \
       mysql-client \
       postgresql-client \ 
       unzip \
-      net-tools \
-      && \
-      rm -rf /var/lib/apt/lists/*
+      net-tools 
+
+
     
 # Go stuff
 ARG GO_VERSION 
@@ -89,6 +89,15 @@ RUN set -xe && \
     mv kubectl /usr/local/bin  && \
     chmod +x /usr/local/bin/kubectl
     
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    /usr/local/bin/aws --version && \
+    rm -rf awscliv2.zip aws
+    
+# shortcut to install azcli
+RUN	curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 RUN useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud
 USER 1000
 WORKDIR /home/cloud
