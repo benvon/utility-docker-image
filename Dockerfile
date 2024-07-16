@@ -23,10 +23,11 @@ ENV OS_EXT Linux
 RUN apt-get update && \
     apt-get -y install \
       curl \
-      netcat \
+      netcat-openbsd \
       gnupg \
       software-properties-common \
-      lsb-core \
+    #   lsb-core \
+      lsb-release \
       jq \
       python3-ncclient \
       python3-pip \
@@ -39,9 +40,9 @@ RUN apt-get update && \
       unzip \
       net-tools \
       && \
-    useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud && \
-    rm -rf /var/lib/apt/lists/* && \ 
-    pip3 install --no-cache-dir \
+      rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --no-cache-dir \
       boto \
       botocore \
       boto3 \
@@ -90,7 +91,7 @@ RUN set -xe && \
     mv kubectl /usr/local/bin  && \
     chmod +x /usr/local/bin/kubectl
     
-
+RUN useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud
 USER 1000
 WORKDIR /home/cloud
 RUN /usr/local/bin/ansible-galaxy collection install community.kubernetes
