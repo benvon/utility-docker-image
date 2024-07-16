@@ -94,11 +94,11 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     ./aws/install && \
     /usr/local/bin/aws --version && \
     rm -rf awscliv2.zip aws
-    
+
 # shortcut to install azcli
 RUN	curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN useradd -m -d /home/cloud -s /bin/bash -u 1000 cloud
-USER 1000
+RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
+USER cloud
 WORKDIR /home/cloud
 RUN /usr/local/bin/ansible-galaxy collection install community.kubernetes
