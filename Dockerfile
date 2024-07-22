@@ -46,7 +46,8 @@ RUN apt-get update && \
       mysql-client \
       postgresql-client \ 
       unzip \
-      net-tools 
+      net-tools \
+      bsdmainutils 
 
 
     
