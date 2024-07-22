@@ -1,0 +1,18 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: utility
+  namespace: <YOUR NAMESPACE HERE>
+spec:
+  containers:
+  - name: utility
+    image: ghcr.io/benvon/utility-docker-image:v1.0.0
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+    command: ["/bin/sh", "-c", "while true; do echo hello; sleep 10;done"]
