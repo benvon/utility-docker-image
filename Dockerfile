@@ -102,3 +102,7 @@ RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
 WORKDIR /home/cloud
 RUN ansible-galaxy collection install community.kubernetes
+RUN curl "https://codeload.github.com/drwetter/testssl.sh/tar.gz/v3.0.9" -o "testssl.tar.gz" && \
+    tar -xvf testssl.tar.gz && \
+    mv testssl.sh-3.0.9 testssl && \
+    rm -rf testssl.tar.gz
