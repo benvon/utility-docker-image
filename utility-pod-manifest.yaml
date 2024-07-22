@@ -5,6 +5,7 @@ metadata:
   name: utility
   namespace: <YOUR NAMESPACE HERE>
 spec:
+  automountServiceAccountToken: false
   containers:
   - name: utility
     image: ghcr.io/benvon/utility-docker-image:v1.0.0

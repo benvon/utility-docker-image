@@ -47,7 +47,9 @@ RUN apt-get update && \
       postgresql-client \ 
       unzip \
       net-tools \
-      bsdmainutils 
+      bsdmainutils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* 
 
 
     
