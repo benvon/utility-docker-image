@@ -20,35 +20,33 @@ ENV OS=linux
 ARG OS_EXT 
 ENV OS_EXT=Linux
 
-
-
 RUN apt-get update && \
-    apt-get -y install \
-      curl \
-      netcat-openbsd \
-      gnupg \
-      software-properties-common \
-    #   lsb-core \
-      lsb-release \
-      jq \
-      python3-ncclient \
-      python3-pip \
-      python-is-python3 \
-      python3-botocore \
-      python3-boto3 \
-      python3-boto \
-      python3-openshift \
-      python3-kubernetes \
-      ansible \
-      ssh \
-      vim \
-      git \
-      mysql-client \
-      postgresql-client \ 
-      unzip \
-      net-tools \
-      bsdmainutils \
-      dnsutils && \
+    apt-get -y upgrade && \
+    apt-get -yq --no-install-recommends install \
+        curl \
+        netcat-openbsd \
+        gnupg \
+        software-properties-common \
+        lsb-release \
+        jq \
+        python3-ncclient \
+        python3-pip \
+        python-is-python3 \
+        python3-botocore \
+        python3-boto3 \
+        python3-boto \
+        python3-openshift \
+        python3-kubernetes \
+        ansible \
+        ssh \
+        vim \
+        git \
+        mysql-client \
+        postgresql-client \ 
+        unzip \
+        net-tools \
+        bsdmainutils \
+        dnsutils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 
