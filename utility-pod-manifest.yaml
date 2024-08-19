@@ -5,6 +5,10 @@ metadata:
   name: utility
   namespace: <YOUR NAMESPACE HERE>
 spec:
+  securityContext:
+    runAsUser: 5000
+    runAsGroup: 5000
+    fsGroup: 5000
   automountServiceAccountToken: false
   containers:
   - name: utility
@@ -17,3 +21,7 @@ spec:
         memory: "64Mi"
         cpu: "250m"
     command: ["/bin/sh", "-c", "while true; do echo hello; sleep 10;done"]
+    securityContext:
+      drop:
+        - ALL
+      allowPrivilegeEscalation: false
