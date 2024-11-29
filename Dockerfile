@@ -2,6 +2,8 @@ FROM ubuntu:noble
 
 LABEL org.opencontainers.image.source=https://github.com/benvon/utility-docker-image/
 LABEL org.opencontainers.image.base.name=ubuntu
+LABEL org.opencontainers.image.base.version=24.04
+LABEL org.opencontainers.maintainer="Ben Vaughan <ben@benvon.net>"
 
 USER 0
 
@@ -24,20 +26,11 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -yq --no-install-recommends install \
         curl \
+        wget \
         netcat-openbsd \
         gnupg \
         software-properties-common \
         lsb-release \
-        jq \
-        python3-ncclient \
-        python3-pip \
-        python-is-python3 \
-        python3-botocore \
-        python3-boto3 \
-        python3-boto \
-        python3-openshift \
-        python3-kubernetes \
-        ansible \
         ssh \
         vim \
         git \
@@ -50,68 +43,21 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 
-
-    
-# Go stuff
-ARG GO_VERSION 
-ENV GO_VERSION=${GO_VERSION:-1.23.3}
-RUN set -ex; \  
-    curl --proto "=https" --tlsv1.2 -fsSLo go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-${CPUARCH}.tar.gz" && \
-    rm -rf /usr/local/go && \
-    tar -C /usr/local -xzf go.tar.gz 
-ENV PATH=${PATH}:/usr/local/go/bin
-
-# terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
-ARG TERRAFORM_VERSION
-ENV TERRAFORM_VERSION=${TERRAFORM_VERSION:-1.10.0}
-RUN set -ex && \
-    curl --proto "=https" --tlsv1.2 -fsSLo terraform.zip "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_${TERRAFORM_VERSION}_${OS}_${CPUARCH}.zip" && \
-    unzip terraform.zip && \
-    mv terraform /usr/local/bin && \
-    rm terraform.zip && \
-    chmod +x /usr/local/bin/terraform
-
-# terragrunt: https://terragrunt.gruntwork.io/docs/getting-started/install/
-ARG TERRAGRUNT_VERSION
-ENV TERRAGRUNT_VERSION=${TERRAGRUNT_VERSION:-0.69.3}
-RUN set -ex && \
-    curl --proto "=https" --tlsv1.2 -fsSLo terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v$TERRAGRUNT_VERSION/terragrunt_${OS}_${CPUARCH}" && \
-    mv terragrunt /usr/local/bin && \
-    chmod +x /usr/local/bin/terragrunt
-
-# helm: https://helm.sh/docs/intro/install/
-# https://get.helm.sh/helm-v3.12.0-rc.1-linux-amd64.tar.gz
-ARG HELM_VERSION
-ENV HELM_VERSION=${HELM_VERSION:-3.16.3}
-RUN set -ex; \
-    curl --proto "=https" --tlsv1.2 -fsSLo helm.tar.gz "https://get.helm.sh/helm-v${HELM_VERSION}-${OS}-${CPUARCH}.tar.gz" && \
-    tar xfvz helm.tar.gz && \
-    cp ${OS}-${CPUARCH}/helm /usr/local/bin/helm && \
-    rm -rf helm.tar.gz ${OS}-${CPUARCH} && \
-    chmod +x /usr/local/bin/helm 
-
-# kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-# version: https://dl.k8s.io/release/stable.txt
-ARG KUBECTL_VERSION
-ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.31.3}
-RUN set -xe && \
-    curl --proto "=https" --tlsv1.2 -fsSLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
-    mv kubectl /usr/local/bin  && \
-    chmod +x /usr/local/bin/kubectl
-    
-RUN curl --proto "=https" --tlsv1.2 "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
-    ./aws/install && \
-    /usr/local/bin/aws --version && \
-    rm -rf awscliv2.zip aws
-
 # shortcut to install azcli
 RUN	curl --proto "=https" --tlsv1.2 -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # set up a user inside the container
 RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
+ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin"
 WORKDIR /home/cloud
+
+COPY .tool-versions /home/cloud/.tool-versions
+
+RUN git clone --depth 1 https://github.com/asdf-vm/asdf.git "$HOME/.asdf" && \
+    echo '. "$HOME/.asdf/asdf.sh"' >> $HOME/.bashrc && \
+    echo '. "$HOME/.asdf/asdf.sh"' >> $HOME/.profile && \
+    awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions
 
 # testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
 RUN curl --proto "=https" --tlsv1.2 "https://codeload.github.com/drwetter/testssl.sh/tar.gz/v3.0.9" -o "testssl.tar.gz" && \
