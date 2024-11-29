@@ -1,0 +1,41 @@
+schemaVersion: '2.0.0'
+fileExistenceTests:
+  - name: 'Check that cloud user home directory exists'
+    path: '/home/cloud'
+    shouldExist: true
+    uid: 5000
+    gid: 5000
+    isExecutableBy: 'owner'
+  - name: 'Check asdf folder exists'
+    path: '/home/cloud/.asdf'
+    shouldExist: true
+    uid: 5000
+    gid: 5000
+    isExecutableBy: 'owner'
+  - name: 'Check that az cli is installed'
+    path: '/usr/bin/az'
+    shouldExist: true
+    uid: 0
+    gid: 0
+    isExecutableBy: 'any'
+commandTests:
+  - name: 'Check that az cli is installed'
+    command: 'az'
+    args: ['--version']
+    expectedOutput: ['Your CLI is up-to-date']
+    exitCode: 0
+  - name: 'Check that asdf is installed'
+    command: 'asdf'
+    args: ["--version"]
+    expectedOutput: ['v0.*']
+    exitCode: 0
+  - name: 'Check that terraform is installed'
+    command: 'terraform'
+    args: ['--version']
+    expectedOutput: ['Terraform v1.10.0']
+    exitCode: 0
+  - name: 'check that mysql client is installed'
+    command: 'mysql'
+    args: ['--version']
+    expectedOutput: ['mysql  Ver 8.* for Linux on.* \(\(Ubuntu\)\)']
+    exitCode: 0
