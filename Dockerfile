@@ -78,7 +78,7 @@ RUN set -ex && \
     curl --proto "=https" --tlsv1.2 -fsSLo terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v$TERRAGRUNT_VERSION/terragrunt_${OS}_${CPUARCH}" && \
     mv terragrunt /usr/local/bin && \
     chmod +x /usr/local/bin/terragrunt
-    
+
 # helm: https://helm.sh/docs/intro/install/
 # https://get.helm.sh/helm-v3.12.0-rc.1-linux-amd64.tar.gz
 ARG HELM_VERSION
@@ -108,10 +108,12 @@ RUN curl --proto "=https" --tlsv1.2 "https://awscli.amazonaws.com/awscli-exe-lin
 # shortcut to install azcli
 RUN	curl --proto "=https" --tlsv1.2 -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 --disabled-password cloud
+# set up a user inside the container
+RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
 WORKDIR /home/cloud
-RUN ansible-galaxy collection install community.kubernetes
+
+# testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
 RUN curl --proto "=https" --tlsv1.2 "https://codeload.github.com/drwetter/testssl.sh/tar.gz/v3.0.9" -o "testssl.tar.gz" && \
     tar -xvf testssl.tar.gz && \
     mv testssl.sh-3.0.9 testssl && \
