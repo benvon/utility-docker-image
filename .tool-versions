@@ -1,0 +1,12 @@
+python 3.11.5
+python 3.12.7
+pre-commit 3.3.3
+jq 1.7.1
+terraform 1.10.0
+terragrunt 0.69.3
+golang 1.23.3
+golangci-lint 1.62.2
+helm 3.16.3 #https://github.com/Antiarchitect/asdf-helm.git
+kubectl 1.31.3
+awscli 2.22.7 #https://github.com/MetricMike/asdf-awscli.git
+azure-cli 2.67.0
