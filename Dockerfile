@@ -77,9 +77,8 @@ ENV TERRAGRUNT_VERSION=${TERRAGRUNT_VERSION:-0.69.3}
 RUN set -ex && \
     curl --proto "=https" --tlsv1.2 -fsSLo terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v$TERRAGRUNT_VERSION/terragrunt_${OS}_${CPUARCH}" && \
     mv terragrunt /usr/local/bin && \
-    chmod +x /usr/local/bin/terragrunt && \
-    rm terragrunt 
-
+    chmod +x /usr/local/bin/terragrunt
+    
 # helm: https://helm.sh/docs/intro/install/
 # https://get.helm.sh/helm-v3.12.0-rc.1-linux-amd64.tar.gz
 ARG HELM_VERSION
@@ -109,7 +108,7 @@ RUN curl --proto "=https" --tlsv1.2 "https://awscli.amazonaws.com/awscli-exe-lin
 # shortcut to install azcli
 RUN	curl --proto "=https" --tlsv1.2 -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
+RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 --disabled-password cloud
 USER cloud
 WORKDIR /home/cloud
 RUN ansible-galaxy collection install community.kubernetes
