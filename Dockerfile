@@ -54,7 +54,7 @@ RUN apt-get update && \
     
 # Go stuff
 ARG GO_VERSION 
-ENV GO_VERSION=${GO_VERSION:-1.22.5}
+ENV GO_VERSION=${GO_VERSION:-1.23.3}
 RUN set -ex; \  
     curl --proto "=https" --tlsv1.2 -fsSLo go.tar.gz "https://go.dev/dl/go${GO_VERSION}.linux-${CPUARCH}.tar.gz" && \
     rm -rf /usr/local/go && \
@@ -63,7 +63,7 @@ ENV PATH=${PATH}:/usr/local/go/bin
 
 # terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
 ARG TERRAFORM_VERSION
-ENV TERRAFORM_VERSION=${TERRAFORM_VERSION:-1.5.5}
+ENV TERRAFORM_VERSION=${TERRAFORM_VERSION:-1.10.0}
 RUN set -ex && \
     curl --proto "=https" --tlsv1.2 -fsSLo terraform.zip "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_${TERRAFORM_VERSION}_${OS}_${CPUARCH}.zip" && \
     unzip terraform.zip && \
@@ -74,7 +74,7 @@ RUN set -ex && \
 # helm: https://helm.sh/docs/intro/install/
 # https://get.helm.sh/helm-v3.12.0-rc.1-linux-amd64.tar.gz
 ARG HELM_VERSION
-ENV HELM_VERSION=${HELM_VERSION:-3.15.0}
+ENV HELM_VERSION=${HELM_VERSION:-3.16.3}
 RUN set -ex; \
     curl --proto "=https" --tlsv1.2 -fsSLo helm.tar.gz "https://get.helm.sh/helm-v${HELM_VERSION}-${OS}-${CPUARCH}.tar.gz" && \
     tar xfvz helm.tar.gz && \
@@ -85,7 +85,7 @@ RUN set -ex; \
 # kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 # version: https://dl.k8s.io/release/stable.txt
 ARG KUBECTL_VERSION
-ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.29.5}
+ENV KUBECTL_VERSION=${KUBECTL_VERSION:-1.31.3}
 RUN set -xe && \
     curl --proto "=https" --tlsv1.2 -fsSLo kubectl "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/${OS}/${CPUARCH}/kubectl" && \
     mv kubectl /usr/local/bin  && \
