@@ -85,7 +85,7 @@ jobs:
       - name: Run container tests
         uses: plexsystems/container-structure-test-action@v0.3.0
         with:
-            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
             config: ./container-tests.yaml
 
       # Sign the resulting Docker image digest except on PRs.
