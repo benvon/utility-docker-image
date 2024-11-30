@@ -85,7 +85,7 @@ jobs:
       - name: Run container tests
         uses: plexsystems/container-structure-test-action@v0.3.0
         with:
-            image: ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
+            image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             config: ./container-tests.yaml
 
       # Sign the resulting Docker image digest except on PRs.
