@@ -1,0 +1,33 @@
+name: Container Tests
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_TAG: pr-test
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Build and push Docker image
+      id: build-and-push
+      uses: docker/build-push-action@v6.9.0
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: |
+          ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
+        # labels: ${{ steps.meta.outputs.labels }}
+
+    - name: Run container tests
+      uses: plexsystems/container-structure-test-action@v0.3.0
+      with:
+          image: ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
+          config: ./container-tests.yaml
