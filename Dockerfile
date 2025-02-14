@@ -22,24 +22,28 @@ ENV OS=linux
 ARG OS_EXT 
 ENV OS_EXT=Linux
 
+ARG TESTSSLVERSION=3.0.9
+
+
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -yq --no-install-recommends install \
-        curl \
-        wget \
-        netcat-openbsd \
-        gnupg \
-        software-properties-common \
-        lsb-release \
-        ssh \
-        vim \
-        git \
-        mysql-client \
-        postgresql-client \ 
-        unzip \
-        net-tools \
         bsdmainutils \
-        dnsutils && \
+        curl \
+        dnsutils \
+        git \
+        gnupg \
+        lsb-release \
+        mysql-client \
+        net-tools \
+        netcat-openbsd \
+        postgresql-client \
+        software-properties-common \
+        ssh \
+        unzip \
+        vim \
+        wget \
+        && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 
@@ -49,18 +53,23 @@ RUN	curl --proto "=https" --tlsv1.2 -sL https://aka.ms/InstallAzureCLIDeb | bash
 # set up a user inside the container
 RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
-ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin"
+ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin"
 WORKDIR /home/cloud
 
-COPY .tool-versions /home/cloud/.tool-versions
+COPY --chown=cloud:cloud .tool-versions /home/cloud/.tool-versions
 
 RUN git clone --depth 1 https://github.com/asdf-vm/asdf.git "$HOME/.asdf" && \
-    echo '. "$HOME/.asdf/asdf.sh"' >> $HOME/.bashrc && \
-    echo '. "$HOME/.asdf/asdf.sh"' >> $HOME/.profile && \
-    awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions
+    echo '. "$HOME/.asdf/asdf.sh"' >> "$HOME"/.bashrc && \
+    echo '. "$HOME/.asdf/asdf.sh"' >> "$HOME"/.profile && \
+    awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions && \
+    chown -R cloud:cloud "$HOME" && \
+    mkdir -p "$HOME"/bin
 
 # testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
-RUN curl --proto "=https" --tlsv1.2 "https://codeload.github.com/drwetter/testssl.sh/tar.gz/v3.0.9" -o "testssl.tar.gz" && \
-    tar -xvf testssl.tar.gz && \
-    mv testssl.sh-3.0.9 testssl && \
+ADD --chown=cloud:cloud https://codeload.github.com/drwetter/testssl.sh/tar.gz/v${TESTSSLVERSION} testssl.tar.gz
+RUN tar -xvf testssl.tar.gz && \
+    mv testssl.sh-${TESTSSLVERSION} bin/testssl && \
+    chmod +x bin/testssl && \
     rm -rf testssl.tar.gz
+
+ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin:/home/cloud/bin/testssl"
