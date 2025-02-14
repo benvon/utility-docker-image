@@ -1,0 +1,28 @@
+# This configuration file tells Release Drafter how to create release drafts.
+
+# Define how the next release version should be calculated.
+name-template: 'v$NEXT_PATCH_VERSION'
+tag-template: 'v$NEXT_PATCH_VERSION'
+
+# Categorize changes by commit labels.
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: '🛠 Maintenance'
+    labels:
+      - 'chore'
+      - 'refactor'
+      - 'docs'
+
+# Template for each change entry
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+
+# Fallback text for release notes if no changes are detected.
+no-changes-template: 'No notable changes.'
+
+# Optionally, mark the draft as a prerelease
+prerelease: false 
