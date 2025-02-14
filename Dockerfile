@@ -53,7 +53,7 @@ RUN	curl --proto "=https" --tlsv1.2 -sL https://aka.ms/InstallAzureCLIDeb | bash
 # set up a user inside the container
 RUN useradd -m -d /home/cloud -s /bin/bash -u 5000 cloud
 USER cloud
-ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin"
+ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin"
 WORKDIR /home/cloud
 
 COPY .tool-versions /home/cloud/.tool-versions
@@ -64,7 +64,8 @@ RUN git clone --depth 1 https://github.com/asdf-vm/asdf.git "$HOME/.asdf" && \
     awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions
 
 # testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
-ADD https://codeload.github.com/drwetter/testssl.sh/tar.gz/v${TESTSSLVERSION} testssl.tar.gz
+ADD --chown=cloud:cloud https://codeload.github.com/drwetter/testssl.sh/tar.gz/v${TESTSSLVERSION} testssl.tar.gz
 RUN tar -xvf testssl.tar.gz && \
-    mv testssl.sh-${TESTSSLVERSION} testssl && \
+    mv testssl.sh-${TESTSSLVERSION} bin/testssl && \
+    chmod +x bin/testssl && \
     rm -rf testssl.tar.gz
