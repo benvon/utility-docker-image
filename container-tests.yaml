@@ -24,6 +24,16 @@ commandTests:
     args: ['--version']
     expectedOutput: ['Your CLI is up-to-date']
     exitCode: 0
+  - name: 'Check that aws cli is installed'
+    command: 'aws'
+    args: ['--version']
+    expectedOutput: ['aws-cli/2.*']
+    exitCode: 0
+  - name: 'Check that jq is installed'
+    command: 'jq'
+    args: ['--version']
+    expectedOutput: ['jq-1.*']
+    exitCode: 0
   - name: 'Check that asdf is installed'
     command: 'asdf'
     args: ["--version"]
@@ -32,7 +42,7 @@ commandTests:
   - name: 'Check that terraform is installed'
     command: 'terraform'
     args: ['--version']
-    expectedOutput: ['Terraform v1.10.0']
+    expectedOutput: ['Terraform v1.*']
     exitCode: 0
   - name: 'check that mysql client is installed'
     command: 'mysql'

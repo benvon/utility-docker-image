@@ -1,5 +1,4 @@
 awscli 2.24.5 #https://github.com/MetricMike/asdf-awscli.git
-azure-cli 2.67.0
 golang 1.23.6
 golang 1.24.0
 golangci-lint 1.64.5
