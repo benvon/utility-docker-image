@@ -56,7 +56,7 @@ USER cloud
 ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin"
 WORKDIR /home/cloud
 
-COPY .tool-versions /home/cloud/.tool-versions
+COPY --chown=cloud:cloud .tool-versions /home/cloud/.tool-versions
 
 RUN git clone --depth 1 https://github.com/asdf-vm/asdf.git "$HOME/.asdf" && \
     echo '. "$HOME/.asdf/asdf.sh"' >> "$HOME"/.bashrc && \
@@ -71,5 +71,5 @@ RUN tar -xvf testssl.tar.gz && \
     mv testssl.sh-${TESTSSLVERSION} bin/testssl && \
     chmod +x bin/testssl && \
     rm -rf testssl.tar.gz
-    
+
 ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin:/home/cloud/bin/testssl"
