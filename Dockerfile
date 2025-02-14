@@ -61,7 +61,9 @@ COPY .tool-versions /home/cloud/.tool-versions
 RUN git clone --depth 1 https://github.com/asdf-vm/asdf.git "$HOME/.asdf" && \
     echo '. "$HOME/.asdf/asdf.sh"' >> "$HOME"/.bashrc && \
     echo '. "$HOME/.asdf/asdf.sh"' >> "$HOME"/.profile && \
-    awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions
+    awk -F'[ #]' '$NF ~ /https/ {system("asdf plugin add " $1 " " $NF)} $1 ~ /./ {system("asdf plugin add " $1 "; asdf install " $1 " " $2)}' ./.tool-versions && \
+    chown -R cloud:cloud "$HOME" && \
+    mkdir -p "$HOME"/bin
 
 # testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
 ADD --chown=cloud:cloud https://codeload.github.com/drwetter/testssl.sh/tar.gz/v${TESTSSLVERSION} testssl.tar.gz
@@ -69,3 +71,5 @@ RUN tar -xvf testssl.tar.gz && \
     mv testssl.sh-${TESTSSLVERSION} bin/testssl && \
     chmod +x bin/testssl && \
     rm -rf testssl.tar.gz
+    
+ENV PATH="${PATH}:/home/cloud/.asdf/shims:/home/cloud/.asdf/bin:/home/cloud/bin:/home/cloud/bin/testssl"
