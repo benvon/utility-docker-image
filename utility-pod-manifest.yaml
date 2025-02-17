@@ -12,7 +12,7 @@ spec:
   automountServiceAccountToken: false
   containers:
   - name: utility
-    image: ghcr.io/benvon/utility-docker-image:v2.0.0
+    image: ghcr.io/benvon/utility-docker-image:v2.1.0
     resources:
       limits:
         memory: "128Mi"
