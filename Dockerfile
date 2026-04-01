@@ -88,6 +88,8 @@ COPY --chown=cloud:cloud .tool-versions /home/cloud/.tool-versions
 
 RUN set -eux; \
     mkdir -p "$HOME"/bin "$MISE_CONFIG_DIR" "$MISE_CACHE_DIR"; \
+    declare -A latest_version_for_tool=(); \
+    declare -a tool_order=(); \
     while IFS= read -r line; do \
         clean_line="${line%%#*}"; \
         if [[ -z "${clean_line//[[:space:]]/}" ]]; then \
@@ -101,8 +103,17 @@ RUN set -eux; \
             mise plugins install "${tool}" "${BASH_REMATCH[1]}"; \
         fi; \
         mise install "${tool}@${version}"; \
-        mise use --global "${tool}@${version}"; \
+        if [[ -z "${latest_version_for_tool[${tool}]+x}" ]]; then \
+            tool_order+=("${tool}"); \
+        fi; \
+        latest_version_for_tool["${tool}"]="${version}"; \
     done < ./.tool-versions; \
+    { \
+        echo "[tools]"; \
+        for tool in "${tool_order[@]}"; do \
+            echo "${tool} = \"${latest_version_for_tool[${tool}]}\""; \
+        done; \
+    } > "${MISE_CONFIG_DIR}/config.toml"; \
     mise reshim
 
 # testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
