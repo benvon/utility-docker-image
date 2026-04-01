@@ -25,9 +25,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish GitHub Release for tag
-        uses: release-drafter/release-drafter@67e173cadb2fbd3de94f4a861e0c48c913b462ae # v6.4.0
-        with:
-          publish: true
-          tag: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+
+          # Treat semver pre-release tags (for example v1.2.3-rc.1) as prereleases.
+          prerelease_args=()
+          if [[ "${tag}" == *-* ]]; then
+            prerelease_args+=(--prerelease --latest=false)
+          else
+            prerelease_args+=(--latest)
+          fi
+
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            gh release edit "${tag}" "${prerelease_args[@]}"
+          else
+            gh release create "${tag}" --verify-tag --generate-notes "${prerelease_args[@]}"
+          fi
