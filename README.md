@@ -1,8 +1,6 @@
 # utility-docker-image
 Docker image with a bunch of useful tools installed based on Ubuntu Noble. This image is intended to be used as a base for kubernetes automation or "service-pod" type use-cases where it may be useful for troubleshooting and diagnostics.
 
-[![Quality Gate Status](https://sonarqube.benvon.net/api/project_badges/measure?project=benvon_utility-docker-image_8b1dba07-aef3-4051-9fe2-485cb5a20ae4&metric=alert_status&token=sqb_ad2e158bb6f6c37a2fd1676eabefa45b64fcee6d)](https://sonarqube.benvon.net/dashboard?id=benvon_utility-docker-image_8b1dba07-aef3-4051-9fe2-485cb5a20ae4)
-
 ## Ubuntu maintained packages
 
 - curl 
@@ -10,10 +8,6 @@ Docker image with a bunch of useful tools installed based on Ubuntu Noble. This 
 - gnupg 
 - software-properties-common 
 - lsb-release
-- jq 
-- python3-ncclient 
-- python3-pip 
-- python-is-python3 
 - ssh 
 - vim 
 - git 
@@ -21,9 +15,37 @@ Docker image with a bunch of useful tools installed based on Ubuntu Noble. This 
 - postgresql-client  
 - unzip 
 
-## Image maintainer packages:
+## Tool manager
 
-- Helm - 3.15.0
-- Kubectl - 1.29.5
-- Terraform - 1.5.5
-- Go - 1.22.5
+Runtime tools are installed and version-pinned via [`mise`](./.tool-versions).
+
+Current managed tools:
+
+- awscli
+- golang
+- golangci-lint
+- helm
+- jq
+- kubectl
+- pre-commit
+- python
+- terraform
+- terragrunt
+
+## CI gates
+
+- `Container Tests`: image build + container-structure tests for tool availability and runtime behavior.
+- `Security Gate`: GitHub dependency review + CodeQL analysis.
+
+These two workflows are intended to be configured as required checks for `main`.
+
+## Release flow
+
+- Pushes and scheduled runs build/publish to `ghcr.io` and sign images with `cosign`.
+- Semver tags (`v*.*.*`) publish both the container image and a GitHub Release.
+
+## Supply chain hardening
+
+- GitHub Actions are pinned to immutable commit SHAs.
+- The base image is pinned to an immutable digest.
+- External artifacts (`testssl` tarball and apt signing keys) are checksum-verified during build.

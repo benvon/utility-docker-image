@@ -6,8 +6,8 @@ fileExistenceTests:
     uid: 5000
     gid: 5000
     isExecutableBy: 'owner'
-  - name: 'Check asdf folder exists'
-    path: '/home/cloud/.asdf'
+  - name: 'Check mise shims folder exists'
+    path: '/home/cloud/.local/share/mise/shims'
     shouldExist: true
     uid: 5000
     gid: 5000
@@ -22,7 +22,7 @@ commandTests:
   - name: 'Check that az cli is installed'
     command: 'az'
     args: ['--version']
-    expectedOutput: ['Your CLI is up-to-date']
+    expectedOutput: ['azure-cli']
     exitCode: 0
   - name: 'Check that aws cli is installed'
     command: 'aws'
@@ -34,15 +34,50 @@ commandTests:
     args: ['--version']
     expectedOutput: ['jq-1.*']
     exitCode: 0
-  - name: 'Check that asdf is installed'
-    command: 'asdf'
-    args: ["--version"]
-    expectedOutput: ['v0.*']
+  - name: 'Check that mise is installed'
+    command: 'mise'
+    args: ["version"]
+    expectedOutput: ['^[0-9]{4}\.[0-9]+\.[0-9]+ .*']
     exitCode: 0
   - name: 'Check that terraform is installed'
     command: 'terraform'
     args: ['--version']
     expectedOutput: ['Terraform v1.*']
+    exitCode: 0
+  - name: 'Check that terragrunt is installed'
+    command: 'terragrunt'
+    args: ['--version']
+    expectedOutput: ['terragrunt version v0.*']
+    exitCode: 0
+  - name: 'Check that kubectl is installed'
+    command: 'kubectl'
+    args: ['version', '--client=true']
+    expectedOutput: ['Client Version: v1.*']
+    exitCode: 0
+  - name: 'Check that helm is installed'
+    command: 'helm'
+    args: ['version', '--short']
+    expectedOutput: ['v3.*']
+    exitCode: 0
+  - name: 'Check that go is installed'
+    command: 'go'
+    args: ['version']
+    expectedOutput: ['go version go1.*']
+    exitCode: 0
+  - name: 'Check that golangci-lint is installed'
+    command: 'golangci-lint'
+    args: ['version']
+    expectedOutput: ['golangci-lint has version .*']
+    exitCode: 0
+  - name: 'Check that python is installed'
+    command: 'python'
+    args: ['--version']
+    expectedOutput: ['Python 3.*']
+    exitCode: 0
+  - name: 'Check that pre-commit is installed'
+    command: 'pre-commit'
+    args: ['--version']
+    expectedOutput: ['pre-commit .*']
     exitCode: 0
   - name: 'check that mysql client is installed'
     command: 'mysql'

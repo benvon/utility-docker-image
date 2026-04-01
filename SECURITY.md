@@ -6,7 +6,6 @@
 | ------- | ------------------ |
 | 1.x.y   | :heavy_check_mark: |
 
-
 ## Reporting a Vulnerability
 
 Report vulnerabilities by opening an issue on the Github issue tracker here: https://github.com/benvon/utility-docker-image/issues
