@@ -37,7 +37,7 @@ commandTests:
   - name: 'Check that mise is installed'
     command: 'mise'
     args: ["version"]
-    expectedOutput: ['mise']
+    expectedOutput: ['^[0-9]{4}\.[0-9]+\.[0-9]+ .*']
     exitCode: 0
   - name: 'Check that terraform is installed'
     command: 'terraform'
