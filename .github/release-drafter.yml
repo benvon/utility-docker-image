@@ -31,4 +31,4 @@ template: |
 no-changes-template: 'No notable changes.'
 
 # Optionally, mark the draft as a prerelease
-prerelease: false 
+prerelease: false

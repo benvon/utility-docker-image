@@ -44,7 +44,7 @@ jobs:
           fi
 
           if gh release view "${tag}" >/dev/null 2>&1; then
-            gh release edit "${tag}" "${prerelease_args[@]}"
+            gh release edit "${tag}" --draft=false "${prerelease_args[@]}"
           else
             gh release create "${tag}" --verify-tag --generate-notes "${prerelease_args[@]}"
           fi
