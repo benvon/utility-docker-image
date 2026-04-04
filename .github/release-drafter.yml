@@ -21,8 +21,14 @@ categories:
 # Template for each change entry
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 
+# Template for the generated release notes body (required by release-drafter v6)
+template: |
+  ## What's Changed
+
+  $CHANGES
+
 # Fallback text for release notes if no changes are detected.
 no-changes-template: 'No notable changes.'
 
 # Optionally, mark the draft as a prerelease
-prerelease: false 
+prerelease: false
