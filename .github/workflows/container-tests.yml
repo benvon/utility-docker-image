@@ -31,6 +31,8 @@ jobs:
           push: false
           load: true
           tags: ${{ env.IMAGE_TAG }}
+          secrets: |
+            github_token=${{ github.token }}
 
       - name: Run container tests
         uses: plexsystems/container-structure-test-action@c0a028aa96e8e82ae35be556040340cbb3e280ca # v0.3.0
