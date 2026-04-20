@@ -33,7 +33,7 @@ jobs:
           tags: ${{ env.IMAGE_TAG }}
 
       - name: Run container tests
-        uses: plexsystems/container-structure-test-action@ad139986cdbec170cccbace088b712fe7e24e81f # v0.3.0
+        uses: plexsystems/container-structure-test-action@c0a028aa96e8e82ae35be556040340cbb3e280ca # v0.3.0
         with:
           image: ${{ env.IMAGE_TAG }}
           config: ./container-tests.yaml
