@@ -1,4 +1,6 @@
-FROM ubuntu:noble@sha256:186072bba1b2f436cbb91ef2567abca677337cfc786c86e107d25b7072feef0c
+# syntax=docker/dockerfile:1.7
+
+FROM ubuntu:noble@sha256:c4a8d5503dfb2a3eb8ab5f807da5bc69a85730fb49b5cfca2330194ebcc41c7b
 
 LABEL org.opencontainers.image.source=https://github.com/benvon/utility-docker-image/
 LABEL org.opencontainers.image.base.name=ubuntu
@@ -86,8 +88,12 @@ WORKDIR /home/cloud
 
 COPY --chown=cloud:cloud .tool-versions /home/cloud/.tool-versions
 
-RUN set -eux; \
+RUN --mount=type=secret,id=github_token \
+    set -eux; \
     mkdir -p "$HOME"/bin "$MISE_CONFIG_DIR" "$MISE_CACHE_DIR"; \
+    if [[ -f /run/secrets/github_token ]]; then \
+        export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
+    fi; \
     declare -A latest_version_for_tool=(); \
     declare -a tool_order=(); \
     while IFS= read -r line; do \
