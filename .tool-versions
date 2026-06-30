@@ -1,7 +1,7 @@
 awscli 2.26.7 #https://github.com/MetricMike/asdf-awscli.git
 golang 1.23.8
 golang 1.24.2
-golangci-lint 1.64.8
+golangci-lint 2.12.2
 helm 3.17.3 #https://github.com/Antiarchitect/asdf-helm.git
 jq 1.7.1
 kubectl 1.32.3
