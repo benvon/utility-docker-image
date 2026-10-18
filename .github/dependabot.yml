@@ -14,3 +14,9 @@ updates:
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
+    groups:
+      # init, analyze, and the other codeql-action steps must share one version.
+      # A single pull request keeps those bumps in lockstep.
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"
