@@ -1,5 +1,5 @@
 # utility-docker-image
-Docker image with a bunch of useful tools installed based on Ubuntu Noble. This image is intended to be used as a base for kubernetes automation or "service-pod" type use-cases where it may be useful for troubleshooting and diagnostics.
+Docker image with a bunch of useful tools installed based on Ubuntu 26.04 (Resolute). This image is intended to be used as a base for kubernetes automation or "service-pod" type use-cases where it may be useful for troubleshooting and diagnostics.
 
 ## Ubuntu maintained packages
 
