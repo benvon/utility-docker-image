@@ -24,8 +24,8 @@ ENV OS=linux
 ARG OS_EXT 
 ENV OS_EXT=Linux
 
-ARG TESTSSLVERSION=3.0.9
-ARG TESTSSL_SHA256=75ecbe4470e74f9ad17f4c4ac733be123b0f67d676ed24cc2b30adb41561e05f
+ARG TESTSSLVERSION=3.2.5
+ARG TESTSSL_SHA256=23bb53d50ae093b89631e9fff547c087f632bf35f7a3d7dc78dd4ffff56cd779
 ARG MISE_GPG_PUB_SHA256=91c72340c5cc84ae2ba98c1070083feacf789b0a4a3d34b2416147769e475d96
 ARG MICROSOFT_ASC_SHA256=2fa9c05d591a1582a9aba276272478c262e95ad00acf60eaee1644d93941e3c6
 
@@ -123,8 +123,8 @@ RUN --mount=type=secret,id=github_token \
     } > "${MISE_CONFIG_DIR}/config.toml"; \
     mise reshim
 
-# testssl: https://github.com/drwetter/testssl.sh/pkgs/container/testssl.sh#installation
-RUN curl -fsSL --retry 5 --retry-delay 2 -o testssl.tar.gz "https://codeload.github.com/drwetter/testssl.sh/tar.gz/v${TESTSSLVERSION}" && \
+# testssl: https://github.com/testssl/testssl.sh
+RUN curl -fsSL --retry 5 --retry-delay 2 -o testssl.tar.gz "https://codeload.github.com/testssl/testssl.sh/tar.gz/v${TESTSSLVERSION}" && \
     echo "${TESTSSL_SHA256}  testssl.tar.gz" | sha256sum -c - && \
     tar -xvf testssl.tar.gz && \
     mv testssl.sh-${TESTSSLVERSION} bin/testssl && \
