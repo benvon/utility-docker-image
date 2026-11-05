@@ -1,5 +1,8 @@
 schemaVersion: '2.0.0'
 fileExistenceTests:
+  - name: 'sshd is not installed'
+    path: '/usr/sbin/sshd'
+    shouldExist: false
   - name: 'Check that cloud user home directory exists'
     path: '/home/cloud'
     shouldExist: true
@@ -19,6 +22,16 @@ fileExistenceTests:
     gid: 0
     isExecutableBy: 'any'
 commandTests:
+  - name: 'Check that the image uses glibc'
+    command: 'getconf'
+    args: ['GNU_LIBC_VERSION']
+    expectedOutput: ['glibc 2.*']
+    exitCode: 0
+  - name: 'Check that the ssh client is installed'
+    command: 'ssh'
+    args: ['-V']
+    expectedError: ['OpenSSH_.*']
+    exitCode: 0
   - name: 'Check that az cli is installed'
     command: 'az'
     args: ['--version']
