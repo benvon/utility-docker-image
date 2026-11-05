@@ -25,7 +25,7 @@ commandTests:
   - name: 'Check that the image uses glibc'
     command: 'getconf'
     args: ['GNU_LIBC_VERSION']
-    expectedOutput: ['glibc 2\\..*']
+    expectedOutput: ['glibc 2.*']
     exitCode: 0
   - name: 'Check that the ssh client is installed'
     command: 'ssh'
