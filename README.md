@@ -8,7 +8,7 @@ Docker image with a bunch of useful tools installed based on Ubuntu Noble. This 
 - gnupg 
 - software-properties-common 
 - lsb-release
-- ssh 
+- openssh-client 
 - vim 
 - git 
 - mysql-client 

@@ -30,6 +30,7 @@ ARG MISE_GPG_PUB_SHA256=91c72340c5cc84ae2ba98c1070083feacf789b0a4a3d34b241614776
 ARG MICROSOFT_ASC_SHA256=2fa9c05d591a1582a9aba276272478c262e95ad00acf60eaee1644d93941e3c6
 
 
+# Install the OpenSSH client only. The ssh metapackage also installs sshd.
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -yq --no-install-recommends install \
@@ -45,7 +46,7 @@ RUN apt-get update && \
         netcat-openbsd \
         postgresql-client \
         software-properties-common \
-        ssh \
+        openssh-client \
         unzip \
         vim \
         wget \
